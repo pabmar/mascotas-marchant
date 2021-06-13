@@ -1,15 +1,25 @@
-import React,{useState, useEffect} from 'react'
-import Snackbar from '@material-ui/core/Snackbar';
-import IconButton from '@material-ui/core/IconButton'
-import CloseIcon from '@material-ui/icons/Close'
+import React,{useEffect, useState} from 'react'
+import ItemList from '../ItemList/ItemList';
+
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+      display: 'flex',
+      '& > * + *': {
+        marginLeft: theme.spacing(2),
+      },
+    },
+  }));
 
 const ItemListContainer = props => {
- 
+    const classes = useStyles();
+
     const [error,setError] = useState('');
     const [showError,setShowError] = useState(false)
-    
     useEffect(() =>{
         const myPromise = new Promise ((resolve,reject) =>{
             reject("La Quedo")
@@ -18,16 +28,17 @@ const ItemListContainer = props => {
             setError(error);
             setShowError(true);
         })
+     
     },[])
-
+ 
     return (
-        <Snackbar open={showError} autoHideDuration={6000} message={error}
-        action={
-            <IconButton arial-label="close" color="inerith" onClick={() => setShowError(false)}>
-                <CloseIcon/>
-            </IconButton>
-        }></Snackbar>
-    )
+              
+          <Container>
+            <ItemList ></ItemList>
+          </Container>
+ 
+      ); 
+     
 }
 
 export default ItemListContainer;

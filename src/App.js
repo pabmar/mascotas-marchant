@@ -1,16 +1,18 @@
 import React from 'react';
 import NavBar from './components/NavBar/NavBar'
-import ItemCount from './components/ItemCount/ItemCount'
 import ItemListContainer from './components/ItemListContainer/ItemListContainer'
-import Item from './components/Item/Item'
+ 
+import Box from '@material-ui/core/Box'; 
+
 const App = props => {
   return <div className="appContainer">
     <div>
     <NavBar/>
     </div>
-    <ItemCount/>
-    <ItemListContainer/>
-    <Item></Item>
+    <Box mt={2}> 
+      <ItemListContainer></ItemListContainer>
+    </Box>
+    
   </div>
   
 }

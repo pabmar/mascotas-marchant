@@ -47,14 +47,14 @@ const ItemCount = props => {
            <div className={classes.root}>
 
                     <ButtonGroup disableElevation variant="contained" color="primary"> 
-                        <Avatar className={classes.orange}> 
-                            <Button onClick={aumentarCantidad}>+</Button>
+                        <Avatar className={classes.orange}>
+                            <Button onClick={restarCantidad}>-</Button>
                         </Avatar>
                         <Avatar className={classes.orange2} variant="rounded">
                             <h6 className={classes.numeros}>{cantidad}</h6>
                         </Avatar>
-                        <Avatar className={classes.orange}>
-                            <Button onClick={restarCantidad}>-</Button>
+                        <Avatar className={classes.orange}> 
+                            <Button onClick={aumentarCantidad}>+</Button>
                         </Avatar>
                         
                     </ButtonGroup>
