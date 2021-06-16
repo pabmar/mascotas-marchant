@@ -17,7 +17,7 @@ const useStyles = makeStyles({
 
 const Item =  props => {
 
-    const { titulo, resumen, imagen,alt,precio } = props;
+    const { item } = props;
     const classes = useStyles();
     
     return ( 
@@ -25,20 +25,20 @@ const Item =  props => {
           <CardActionArea>
             <CardMedia
               component="img"
-              alt={alt}
+              alt={item.alt}
               height="140"
-              image={imagen}
-              title={titulo}
+              image={item.img}
+              title={item.titulo}
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="h2">
-                {titulo}
+                {item.titulo}
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
-                 {resumen}
+                 {item.resumen}
               </Typography>
               <Typography variant="body3" color="textSecondary" component="p">
-                 ${precio}.-
+                 ${item.precio}.-
               </Typography>
               
             </CardContent>
