@@ -60,29 +60,7 @@ const Item =  props => {
           </CardActions>
         </Card>
       );
-        // return (
-        // <Card className={classes.root}>
-        //     <CardContent>
-        //     <Typography className={classes.title} color="textSecondary" gutterBottom>
-                
-        //     </Typography>
-        //     <Typography variant="h5" component="h2">
-        //         <img src={imagen}>
-        //     </Typography>
-        //     <Typography className={classes.pos} color="textSecondary">
-        //         adjective
-        //     </Typography>
-        //     <Typography variant="body2" component="p">
-        //     <p> </p>
-        //         <br />
-        //         {precio}
-        //     </Typography>
-        //     </CardContent>
-        //     <CardActions>
-        //     <Button size="small">Learn More</Button>
-        //     </CardActions>
-        // </Card>
-  
+         
     
     
 }
