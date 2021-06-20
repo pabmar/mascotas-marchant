@@ -11,8 +11,8 @@ const App = props => {
     <NavBar/>
     </div>
     <Box mt={2}> 
-      {/* <ItemListContainer></ItemListContainer> */}
-      <ItemDetailContainer></ItemDetailContainer>
+      <ItemListContainer></ItemListContainer>
+      {/* <ItemDetailContainer></ItemDetailContainer> */}
       
     </Box>
     
