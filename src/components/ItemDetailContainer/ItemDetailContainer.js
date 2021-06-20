@@ -87,20 +87,20 @@ const dataProductos = () =>{
 
 const ItemDetailContainer = props => {
  
-  const [productos, setProductos] = useState([])
+  const [producto, setProductos] = useState([])
+  
 
   const llamarProductos  = () =>{
     dataProductos().then(data =>{const dataMostrar = data.filter(data => (data.id == 1)) 
-      console.log(dataMostrar)
-    setProductos(dataMostrar)})
+    setProductos(dataMostrar[0])})
     
   }
   useEffect(() =>{
     llamarProductos();
      
   },[])
-    const producto = productos[0]
  
+    console.log(producto.titulo)
     return (
             
           <Container>
