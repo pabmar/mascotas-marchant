@@ -3,6 +3,11 @@ import ItemDetail from '../ItemDetail/ItemDetail';
 
 
 import Container from '@material-ui/core/Container';
+import Box from '@material-ui/core/Box';
+
+import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+ 
 
 
 const dataProductos = () =>{
@@ -87,7 +92,7 @@ const dataProductos = () =>{
 
 const ItemDetailContainer = props => {
  
-  const [producto, setProductos] = useState([])
+  const [producto, setProductos] = useState()
   
 
   const llamarProductos  = () =>{
@@ -100,14 +105,21 @@ const ItemDetailContainer = props => {
      
   },[])
  
-    console.log(producto.titulo)
-    return (
-            
-          <Container>
-              <ItemDetail item={producto}></ItemDetail>
-          </Container>
  
-      ); 
+     
+      return <>
+          {producto == undefined?(
+            <Box display="flex" justifyContent="center  ">
+              <CircularProgress />
+           </Box>
+          ):(
+            <Container>
+            <ItemDetail item={producto}></ItemDetail>
+          </Container>
+          )
+
+          }   
+      </>
      
 }
 
