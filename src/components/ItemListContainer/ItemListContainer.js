@@ -1,5 +1,6 @@
 import React,{useEffect, useState} from 'react'
 import ItemList from '../ItemList/ItemList';
+import {useParams} from 'react-router-dom';
 
 
 import Container from '@material-ui/core/Container';
@@ -94,19 +95,34 @@ const dataProductos = () =>{
 const ItemListContainer = props => {
  
     const [productos, setProductos] = useState([])
+    const [validador, setValidador] = useState(true)
+    const {id} = useParams();
+    console.log(id)
+    
 
     const llamarProductos  = () =>{
+      setValidador(true)
+      console.log(validador)
       dataProductos().then(data =>{const dataMostrar = data 
-      setProductos(dataMostrar)})
+      setProductos(dataMostrar)
+      setValidador(false)})
+      
+    }
+    const llamarProductosPorCategoria  = () =>{
+      setValidador(true)
+      dataProductos().then(data =>{const dataMostrar = data.filter(data => (data.categoria == id) )
+      setProductos(dataMostrar)
+      setValidador(false)})
+      
       
     }
     useEffect(() =>{
-      llamarProductos();
+      id===undefined?llamarProductos():llamarProductosPorCategoria();
        
-    },[])
+    },[id])
  
     return <>
-          {productos.length == 0?(
+          {validador?(
             <Box display="flex" justifyContent="center  ">
               <CircularProgress />
            </Box>
