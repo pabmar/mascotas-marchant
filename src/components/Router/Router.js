@@ -22,6 +22,9 @@ const Router = () =>{
             <Route path="/item/:id">
                 <ItemDetailContainer/>
             </Route>
+            <Route path="/cart">
+                 
+            </Route>
         </Switch>
     </Box>
     

@@ -46,10 +46,7 @@ const Item =  props => {
             </CardContent>
           </CardActionArea>
           <CardActions>
-          <ItemCount></ItemCount>
-          <Button variant="contained" color="default">
-            Agregar
-          </Button>
+          
  
  
           </CardActions>

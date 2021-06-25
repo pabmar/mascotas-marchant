@@ -1,5 +1,5 @@
 import React from 'react';
-import ItemCount from '../ItemCount/ItemCount'
+
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -14,6 +14,10 @@ import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ItemCount from '../ItemCount/ItemCount'
+
+
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -84,13 +88,13 @@ const ItemDetail =  props => {
           >
             <ExpandMoreIcon />
           </IconButton>
+          <ItemCount/>
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
             <Typography paragraph>
               {item.infoAdicional}
             </Typography>
-            
           </CardContent>
         </Collapse>
       </Card>
@@ -98,40 +102,7 @@ const ItemDetail =  props => {
 
 
 
-        // <Card className={classes.root}>
-        //   <CardActionArea>
-        //     <CardMedia
-              
-        //     />
-        //     <CardContent>
-        //       <Typography gutterBottom variant="h5" component="h2">
-        //         {item.titulo}
-        //       </Typography>
-        //       <Typography variant="body2" color="textSecondary" component="p">
-        //          {item.resumen}
-        //       </Typography>
-        //       <Typography variant="body3" color="textSecondary" component="p">
-        //          ${item.precio}.-
-        //       </Typography>
-              
-        //     </CardContent>
-        //   </CardActionArea>
-        //   <CardActions>
-        //   <ItemCount></ItemCount>
-        //   <Button variant="contained" color="default">
-        //     Agregar
-        //   </Button>
- 
- 
-        //   </CardActions>
-        //   <CardActions>
-       
-        //     <Button size="small" color="primary">
-        //       Mas Informacion
-        //     </Button>
- 
-        //   </CardActions>
-        // </Card>
+      
       );  
 }
 
