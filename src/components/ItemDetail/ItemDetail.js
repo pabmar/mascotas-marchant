@@ -43,9 +43,9 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-const ItemDetail =  props => {
+const ItemDetail =  ({item: producto}) => {
 
-  const { item } = props;
+  const { item } = producto;
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -88,10 +88,11 @@ const ItemDetail =  props => {
           >
             <ExpandMoreIcon />
           </IconButton>
-          <ItemCount/>
+       
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
+            
             <Typography paragraph>
               {item.infoAdicional}
             </Typography>

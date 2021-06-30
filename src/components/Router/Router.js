@@ -1,8 +1,10 @@
 import React from 'react';
-import {BrowserRouter, Switch, Route, Link} from 'react-router-dom';
+import {BrowserRouter, Switch, Route} from 'react-router-dom';
+
 
 import ItemListContainer from '../ItemListContainer/ItemListContainer';
 import ItemDetailContainer from '../ItemDetailContainer/ItemDetailContainer';
+import { CountProductosProvider } from '../Context/CountProductosContext';
 import NavBar from '../NavBar/NavBar';
 import Box from '@material-ui/core/Box'; 
 
@@ -27,7 +29,6 @@ const Router = () =>{
             </Route>
         </Switch>
     </Box>
-    
     </BrowserRouter>
 }
 
