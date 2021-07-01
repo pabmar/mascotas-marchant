@@ -14,8 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ItemCount from '../ItemCount/ItemCount'
-
+ 
 
 
 
@@ -43,9 +42,9 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-const ItemDetail =  ({item: producto}) => {
+const ItemDetail =  ({item,children}) => {
 
-  const { item } = producto;
+ 
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -71,6 +70,7 @@ const ItemDetail =  ({item: producto}) => {
         />
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
+          
             {item.resumen}
           </Typography>
         </CardContent>
@@ -88,7 +88,8 @@ const ItemDetail =  ({item: producto}) => {
           >
             <ExpandMoreIcon />
           </IconButton>
-       
+          {children}
+          <p>Stock Disponible: {item.stock}</p>
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>

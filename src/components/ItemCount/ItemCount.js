@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const ItemCount = ({botonResta:BotonResta,botonSuma: BotonSuma,cantidad}) => {
+const ItemCount = ({restarCantidad,aumentarCantidad,confirmarComprar, cantidad,}) => {
     const classes = useStyles();
     const[confirmarCarro, setConfirmarCarro] = useState(true)
  
@@ -55,21 +55,22 @@ const ItemCount = ({botonResta:BotonResta,botonSuma: BotonSuma,cantidad}) => {
                   {confirmarCarro?(<>
                     <ButtonGroup disableElevation variant="contained" color="primary"> 
                     <Avatar className={classes.orange}>
-                      <BotonResta />
+                    <Button onClick={restarCantidad}>-</Button>
+                      
                     </Avatar>
                     <Avatar className={classes.orange2} variant="rounded">
-                      <BotonSuma />
+                      <h6 className={classes.numeros}>{cantidad}</h6>
                     </Avatar>
                     <Avatar className={classes.orange}> 
-                 
+                      
+                    <Button onClick={aumentarCantidad}>+</Button>
                     </Avatar>
-                    
                 </ButtonGroup>
                 <Button variant="contained" color="default" onClick={validarCarro}>Agregar</Button>
                     </>
                   ):(
                     <ButtonGroup disableElevation variant="contained" color="primary"> 
-                    <Button variant="contained" color="primary" ><Link to={'/cart'} className={classes.links}>Finalizar Compra</Link></Button>
+                    <Button variant="contained" color="primary" onClick={confirmarComprar} ><Link to={'/cart'} className={classes.links}>Finalizar Compra</Link></Button>
                     <Button variant="contained" color="default" onClick={validarCarro}>Cancelar</Button>
                     </ButtonGroup>
 

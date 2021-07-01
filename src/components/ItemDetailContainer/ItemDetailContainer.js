@@ -3,11 +3,12 @@ import ItemDetail from '../ItemDetail/ItemDetail';
 import {useParams} from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-
+ 
+import ItemCount from '../ItemCount/ItemCount';
 import CircularProgress from '@material-ui/core/CircularProgress';
  
-
+import { CartContext } from '../Context/CartContext';
+import { useContext } from 'react';
 
 
 const dataProductos = () =>{
@@ -99,9 +100,13 @@ const dataProductos = () =>{
 
 
 const ItemDetailContainer = props => {
+
  
-  const [producto, setProductos] = useState()
-  const [validador, setValidador] = useState(true)
+  const [carro,setCarro] = useContext(CartContext)
+ 
+ 
+  const [producto, setProducto] = useState()
+ 
   const {id} = useParams();
 
   useEffect( () =>{
@@ -109,49 +114,44 @@ const ItemDetailContainer = props => {
   },[])
  
   const llamarProductos  = () =>{
-    setValidador(true)
+ 
     dataProductos().then(data =>{
       const dataMostrar = data.filter(data => (data.id === id) )
-      setProductos(dataMostrar) 
-      console.log(dataMostrar)
-      console.log(producto)
-      setValidador(false)
+      setProducto(dataMostrar[0])
       })
     
   }
 
- 
+  const actualizarCarro =() =>{
+    setCarro([...carro,{...producto,cantidadProducto:cantidad}])
+    console.log([...carro,{...producto,cantidadProducto:cantidad}])
+     
+  }
   
   
  
-    // const [cantidad, setCount] = useState(0);
-    // const aumentarCantidad = () => {
-    //     cantidad<producto.stock?setCount(cantidad + 1):console.log(cantidad)
+    const [cantidad, setCount] = useState(0);
+    const aumentarCantidad = () => {
+        cantidad<producto.stock?setCount(cantidad + 1):console.log(cantidad)
         
-    // }
-    // const restarCantidad = () => {
-    //     cantidad>0?setCount(cantidad - 1):console.log(cantidad)
-    // }
+    }
+    const restarCantidad = () => {
+        cantidad>0?setCount(cantidad - 1):console.log(cantidad)
+    }
    
-    // const BotonRestar =() =>{
-    //   return <Button onClick={restarCantidad}>-</Button>
-    // }
-    // const BotonSumar =() =>{
-    //   return <Button onClick={aumentarCantidad}>+</Button>
-    // }
-    // const MostrarCantidad =() =>{
-    //   return <h6  >{cantidad}</h6>
-    // }
+ 
+   
+    
     
       return <>
-          {validador?(
+          {producto?(
+            <Container>
+              <ItemDetail item={producto}><ItemCount restarCantidad={restarCantidad} aumentarCantidad={aumentarCantidad} cantidad={cantidad} confirmarComprar={actualizarCarro}/></ItemDetail>
+            </Container>
+          ):(
             <Box display="flex" justifyContent="center  ">
               <CircularProgress />
-           </Box>
-          ):(
-            <Container>
-            {/* <ItemDetail item={producto}></ItemDetail> */}
-          </Container>
+            </Box>
           )
 
           }   

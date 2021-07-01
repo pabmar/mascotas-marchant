@@ -96,8 +96,8 @@ const ItemListContainer = props => {
  
     const [productos, setProductos] = useState([])
     const [validador, setValidador] = useState(true)
-    const {id} = useParams();
-    console.log(id)
+    const {categoria} = useParams();
+    console.log(categoria)
     
 
     const llamarProductos  = () =>{
@@ -110,16 +110,16 @@ const ItemListContainer = props => {
     }
     const llamarProductosPorCategoria  = () =>{
       setValidador(true)
-      dataProductos().then(data =>{const dataMostrar = data.filter(data => (data.categoria == id) )
+      dataProductos().then(data =>{const dataMostrar = data.filter(data => (data.categoria === categoria) )
       setProductos(dataMostrar)
       setValidador(false)})
       
       
     }
     useEffect(() =>{
-      id===undefined?llamarProductos():llamarProductosPorCategoria();
+      categoria===undefined?llamarProductos():llamarProductosPorCategoria();
        
-    },[id])
+    },[categoria])
  
     return <>
           {validador?(
