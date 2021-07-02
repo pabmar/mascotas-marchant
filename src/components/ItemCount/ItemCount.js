@@ -45,9 +45,18 @@ const ItemCount = ({restarCantidad,aumentarCantidad,confirmarComprar, cantidad,}
 
     const validarCarro =() =>{
        setConfirmarCarro(!confirmarCarro)
-       console.log(confirmarCarro)
-    }
  
+    }
+
+    const funcionCarro =() =>{
+      confirmarComprar();
+
+    }
+
+    const ejecutarFunciones =() =>{
+      validarCarro()
+      funcionCarro()
+    }
 
     return (
       <section >
@@ -66,22 +75,17 @@ const ItemCount = ({restarCantidad,aumentarCantidad,confirmarComprar, cantidad,}
                     <Button onClick={aumentarCantidad}>+</Button>
                     </Avatar>
                 </ButtonGroup>
-                <Button variant="contained" color="default" onClick={validarCarro}>Agregar</Button>
+                <Button variant="contained" color="default" onClick={ejecutarFunciones} >Agregar</Button>
                     </>
                   ):(
                     <ButtonGroup disableElevation variant="contained" color="primary"> 
-                    <Button variant="contained" color="primary" onClick={confirmarComprar} ><Link to={'/cart'} className={classes.links}>Finalizar Compra</Link></Button>
+                    <Button variant="contained" color="primary" ><Link to={'/cart'} className={classes.links}>Finalizar Compra</Link></Button>
                     <Button variant="contained" color="default" onClick={validarCarro}>Cancelar</Button>
                     </ButtonGroup>
 
                   )
 
                   }
-                    
-
-                    
-                   
-
             </div>
           
       </section>

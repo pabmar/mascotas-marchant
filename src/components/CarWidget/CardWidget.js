@@ -1,7 +1,9 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import Badge from '@material-ui/core/Badge';
+import { CartContext } from '../Context/CartContext';
+import { useContext } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,12 +15,15 @@ const useStyles = makeStyles((theme) => ({
  
 
 const CardWidget = props => {
+
+  const [carro,setCarro] = useContext(CartContext)
+  const cantidad = carro.length
     const classes = useStyles();
     return (
         <div className={classes.root}>
-         <IconButton color="primary" aria-label="add to shopping cart">
-            <AddShoppingCartIcon />
-          </IconButton>
+        <Badge badgeContent={cantidad} color="primary">
+          <AddShoppingCartIcon />
+        </Badge>
         </div>
     )
 }

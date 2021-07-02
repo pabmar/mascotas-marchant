@@ -123,8 +123,9 @@ const ItemDetailContainer = props => {
   }
 
   const actualizarCarro =() =>{
-    setCarro([...carro,{...producto,cantidadProducto:cantidad}])
-    console.log([...carro,{...producto,cantidadProducto:cantidad}])
+
+    cantidad?setCarro([...carro,{...producto,cantidadProducto:cantidad}]):console.log("stock")
+    
      
   }
   
