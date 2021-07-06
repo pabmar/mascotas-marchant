@@ -23,7 +23,17 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import WarningIcon from '@material-ui/icons/Warning';
+import { Link } from 'react-router-dom';
 
+
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import StorefrontSharpIcon from '@material-ui/icons/StorefrontSharp';
+ 
+ 
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,12 +41,25 @@ const useStyles = makeStyles((theme) => ({
         overflow: 'hidden',
         padding: theme.spacing(0, 3),
       },
+      cardRoot: {
+        maxWidth: 345,
+      },
     demo: {
       backgroundColor: theme.palette.background.paper,
     },
     title: {
       margin: theme.spacing(4, 0, 2),
     },
+    media: {
+        height: 140,
+      },
+      links:{
+        textDecoration: 'none',
+        color: 'white'
+      },
+      margin: {
+        margin: theme.spacing(1),
+      },
   }));
 
    
@@ -83,7 +106,7 @@ const vaciarCarro=() =>{
                 Carro de Compras
               </Typography>
     {   
-        carro.length?(<div className={classes.demo}>
+        carro.length?(<Card className={classes.root}>
             <List  >
             {carro.map((producto, i) => <ListItem>
                   <ListItemAvatar>
@@ -100,22 +123,59 @@ const vaciarCarro=() =>{
                     </IconButton>
                   </ListItemSecondaryAction>
                 </ListItem>)}
-                <ListItem>
-                  <ListItemAvatar>
-                                                 
-                  </ListItemAvatar>
-                  <ListItemText
+                <ListItemText
                     primary='TOTAL:'
                     secondary={totalPago}
                   />
-                  <ListItemSecondaryAction>
-                  <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-      Vaciar Carro<DeleteIcon />
-      </Button>
-                  </ListItemSecondaryAction>
-                </ListItem>
+                <Button
+                      variant="contained"
+                      color="primary"
+                      className={classes.margin}
+                      endIcon={<StorefrontSharpIcon/>}
+                    >
+                      <Link to={'/'} className={classes.links}>Seguir comprando</Link>
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      className={classes.margin}
+                      endIcon={<DeleteIcon />}
+                      size = 'medium'
+                      onClick={handleClickOpen}
+                    >
+                      Vaciar Carro
+                    </Button>
+                
             </List>
-          </div>):(<div>Su Carro esta vacio</div>)
+          </Card>):(
+          <Card className={classes.root}>
+          <CardActionArea>
+            <CardMedia
+              className={classes.media}
+              image="https://image.freepik.com/foto-gratis/disparo-enfoque-selectivo-gato-gris-cara-gato-enojado_181624-13282.jpg"
+              title="Mishi Enojado"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+              Su Carro esta vacio...
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                  y a al mishi no le gusta eso
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions>
+          <Link to={'/'} >ir ver productos</Link>    
+             
+          </CardActions>
+        </Card>
+          
+          
+ 
+              
+              
+              
+  )
     }
               
             </Grid>

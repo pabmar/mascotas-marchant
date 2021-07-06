@@ -65,7 +65,7 @@ const ItemDetail =  ({item,children}) => {
         />
         <CardMedia
           className={classes.media}
-          image={item.img}
+          image={item.img1}
           title={item.titulo}
         />
         <CardContent>
