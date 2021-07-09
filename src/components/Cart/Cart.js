@@ -16,6 +16,8 @@ import Typography from '@material-ui/core/Typography';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Container from '@material-ui/core/Container';
 
+import FormularioCompra from '../Formulario/FormularioCompra';
+
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -33,7 +35,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import StorefrontSharpIcon from '@material-ui/icons/StorefrontSharp';
  
- 
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -102,11 +104,12 @@ const vaciarCarro=() =>{
          
           <Grid container spacing={2}><>{console.log(carro.length)}</>
             <Grid item xs={12} md={6}>
-              <Typography variant="h6" className={classes.title}>
-                Carro de Compras
-              </Typography>
+              
     {   
         carro.length?(<Card className={classes.root}>
+          <Typography variant="h6" className={classes.title}>
+                Carro de Compras
+              </Typography>
             <List  >
             {carro.map((producto, i) => <ListItem>
                   <ListItemAvatar>
@@ -149,7 +152,7 @@ const vaciarCarro=() =>{
             </List>
           </Card>):(
           <Card className={classes.root}>
-          <CardActionArea>
+      
             <CardMedia
               className={classes.media}
               image="https://image.freepik.com/foto-gratis/disparo-enfoque-selectivo-gato-gris-cara-gato-enojado_181624-13282.jpg"
@@ -163,21 +166,21 @@ const vaciarCarro=() =>{
                   y a al mishi no le gusta eso
               </Typography>
             </CardContent>
-          </CardActionArea>
+ 
           <CardActions>
           <Link to={'/'} >ir ver productos</Link>    
              
           </CardActions>
         </Card>
-          
-          
- 
-              
-              
               
   )
     }
-              
+             
+            </Grid>
+            
+          <Grid item xs={12} md={6}>
+          {   carro.length?(<FormularioCompra/>):(<></>)}
+                
             </Grid>
           </Grid>
           <div>
