@@ -15,32 +15,9 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        overflow: 'hidden',
-        padding: theme.spacing(0, 3),
-      },
-      cardRoot: {
-        maxWidth: 345,
-      },
-    demo: {
-      backgroundColor: theme.palette.background.paper,
-    },
-    title: {
-      margin: theme.spacing(4, 0, 2),
-    },
-    media: {
-        height: 140,
-      },
-      links:{
-        textDecoration: 'none',
-        color: 'white'
-      },
-      margin: {
-        margin: theme.spacing(1),
-      },
-  }));
+import { FormularioCompraStyle } from './FormularioCompraStyle';
+
+const useStyles = makeStyles((theme) => FormularioCompraStyle(theme));
 
    
 

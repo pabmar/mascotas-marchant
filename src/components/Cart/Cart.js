@@ -1,7 +1,6 @@
 import React, { useState,useEffect }  from 'react';
 import { CartContext } from '../Context/CartContext';
 import { useContext } from 'react';
-
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -12,12 +11,9 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
- 
 import DeleteIcon from '@material-ui/icons/Delete';
 import Container from '@material-ui/core/Container';
-
 import FormularioCompra from './Formulario/FormularioCompra';
-
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -26,43 +22,16 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import WarningIcon from '@material-ui/icons/Warning';
 import { Link } from 'react-router-dom';
-
-
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import StorefrontSharpIcon from '@material-ui/icons/StorefrontSharp';
+import { CartStyle } from './CartStyle';
  
 
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        overflow: 'hidden',
-        padding: theme.spacing(0, 3),
-      },
-      cardRoot: {
-        maxWidth: 345,
-      },
-    demo: {
-      backgroundColor: theme.palette.background.paper,
-    },
-    title: {
-      margin: theme.spacing(4, 0, 2),
-    },
-    media: {
-        height: 140,
-      },
-      links:{
-        textDecoration: 'none',
-        color: 'white'
-      },
-      margin: {
-        margin: theme.spacing(1),
-      },
-  }));
+const useStyles = makeStyles((theme) => CartStyle(theme));
 
    
 

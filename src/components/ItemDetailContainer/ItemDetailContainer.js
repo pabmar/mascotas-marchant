@@ -3,16 +3,12 @@ import ItemDetail from './ItemDetail/ItemDetail';
 import {useParams} from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
- 
 import ItemCount from './ItemCount/ItemCount';
 import CircularProgress from '@material-ui/core/CircularProgress';
- 
 import { CartContext } from '../Context/CartContext';
 import { useContext } from 'react';
-
-
 import { dataBase } from '../../Firebase/firebase';
-import * as firebase from 'firebase/app'
+ 
 import 'firebase/firestore'
 
 

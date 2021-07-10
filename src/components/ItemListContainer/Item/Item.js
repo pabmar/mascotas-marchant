@@ -7,13 +7,9 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import {Link} from 'react-router-dom';
+import { ItemStyle } from './ItemStyle';
 
-
-const useStyles = makeStyles({
-  root: {
-    maxWidth: 345,
-  },
-});
+const useStyles = makeStyles((theme) => ItemStyle(theme));
 
 const Item =  props => {
 

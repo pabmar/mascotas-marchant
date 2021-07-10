@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React  from 'react';
 import {Link} from 'react-router-dom';
 
 import CartWidget from './CartWidget/CardWidget';
@@ -10,31 +10,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu'
+import { NavBarStyle } from './NavBarStyle';
 
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-  tb:{
-    backgroundColor: "orange",
-  },
-  links:{
-    textDecoration: 'none',
-    color: 'white'
-  },
-  menus:{
-     
-     color:'black',
-     textDecoration:'none',
-  },
-}));
+const useStyles = makeStyles((theme) => NavBarStyle(theme));
 
 
 const NavBar = props => {

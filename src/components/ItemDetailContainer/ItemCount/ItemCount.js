@@ -1,40 +1,12 @@
 import React,{useState} from "react"
 import {Link} from 'react-router-dom';
-
 import { makeStyles } from '@material-ui/core/styles';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
-import { orange, grey } from '@material-ui/core/colors';
 import Avatar from '@material-ui/core/Avatar'; 
+import { ItemCountStyle } from "./ItemCountStyle";
 
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    '& > *': {
-      margin: theme.spacing(1),
-    },
-  },
-  orange: {
-    color: 'orange',
-    backgroundColor: orange[400],
-  },
-  grey: {
-      color: 'grey',
-      backgroundColor: grey[500],
-  },
-  orange2: {
-    color: '#fff3e0',
-    backgroundColor: orange[50],
-  },
-  numeros: {
-      color:'black',
-  },
-  links:{
-    textDecoration: 'none',
-    color: 'white'
-  },
-}));
+const useStyles = makeStyles((theme) => ItemCountStyle(theme));
 
 
 const ItemCount = ({restarCantidad,aumentarCantidad,confirmarComprar, cantidad,}) => {

@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 
 const CartWidget = props => {
 
-  const [carro,setCarro] = useContext(CartContext)
+  const carro = useContext(CartContext)
   const cantidad = carro.length
     const classes = useStyles();
     return (
