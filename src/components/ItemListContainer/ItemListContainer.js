@@ -1,46 +1,34 @@
 import React,{useEffect, useState} from 'react'
-import ItemList from '../ItemList/ItemList';
-import {useParams} from 'react-router-dom';
-
-
+import ItemList from './ItemList/ItemList';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
-
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
-import { dataBase } from '../../Firebase/firebase';
- 
-
- 
+import { dataBase } from '../../Firebase/firebase'; 
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import Select from '@material-ui/core/Select'; 
+import { itemDetailContainerStyle } from './itemListContainerStyle';
+ 
+
+const onlyUnique =(value, index, self) => {
+  return self.indexOf(value) === index;
+}
 
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
+const useStyles = makeStyles((theme) =>  itemDetailContainerStyle(theme))
 
 const ItemListContainer = props => {
     const classes = useStyles();
     const [productos, setProductos] = useState([])
-    const {categoria} = useParams();
- 
     const [filtroCategoria,setFiltroCategoria] = useState('Todas')
     const [categoriasDisponibles, setCategoriasDisponibles] = useState([])
     const handleChange = (event) => {
       setFiltroCategoria(event.target.value);
     };
-   
     
+
     useEffect(()=>{
       const itemCollection = dataBase.collection("productos");
       filtroCategoria==='Todas'?(
@@ -49,7 +37,8 @@ const ItemListContainer = props => {
             console.log('No Result');
           }
           setProductos(querySnapshot.docs.map(doc => doc.data()))
-          setCategoriasDisponibles(querySnapshot.docs.map(doc => doc.data().categoria))
+          setCategoriasDisponibles((querySnapshot.docs.map(doc => doc.data().categoria)).filter(onlyUnique))
+        
         }).catch((error)=>{
           console.log("error al encontrar productos", error);
         }).finally(()=>{

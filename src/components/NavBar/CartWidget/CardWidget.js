@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import Badge from '@material-ui/core/Badge';
-import { CartContext } from '../Context/CartContext';
+import { CartContext } from '../../Context/CartContext';
 import { useContext } from 'react';
 
 const useStyles = makeStyles((theme) => ({
@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 }));
  
 
-const CardWidget = props => {
+const CartWidget = props => {
 
   const [carro,setCarro] = useContext(CartContext)
   const cantidad = carro.length
@@ -28,7 +28,7 @@ const CardWidget = props => {
     )
 }
 
-export default CardWidget;
+export default CartWidget;
 
 
 

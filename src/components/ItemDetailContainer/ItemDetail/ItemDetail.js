@@ -15,6 +15,8 @@ import { red } from '@material-ui/core/colors';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
  
+import Carousel from 'react-material-ui-carousel'
+import { Paper, Button } from '@material-ui/core'
 
 
 
@@ -47,6 +49,7 @@ const ItemDetail =  ({item,children}) => {
  
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const imagenes = [item.img1,item.img2,item.img3]
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -54,7 +57,7 @@ const ItemDetail =  ({item,children}) => {
 
     
     return ( 
-        <Card className={classes.root}>
+        <Card className={classes.root}>{console.log(imagenes)}
         <CardHeader
           avatar={
             <Avatar aria-label="Producto" className={classes.avatar}>
@@ -63,11 +66,16 @@ const ItemDetail =  ({item,children}) => {
           }
           title={(item.titulo+' $'+item.precio)}
         />
-        <CardMedia
-          className={classes.media}
-          image={item.img1}
-          title={item.titulo}
-        />
+        <Carousel>
+            {
+                imagenes.map( (imagen, i) => <CardMedia
+                className={classes.media}
+                image={imagen}
+                title={item.titulo}
+              />
+              )
+            }
+        </Carousel>
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
           

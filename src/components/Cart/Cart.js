@@ -16,7 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Container from '@material-ui/core/Container';
 
-import FormularioCompra from '../Formulario/FormularioCompra';
+import FormularioCompra from './Formulario/FormularioCompra';
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -113,7 +113,7 @@ const vaciarCarro=() =>{
             <List  >
             {carro.map((producto, i) => <ListItem>
                   <ListItemAvatar>
-                         <Avatar alt={producto.alt} src={producto.img}/>
+                         <Avatar alt={producto.alt} src={producto.img1}/>
                          
                   </ListItemAvatar>
                   <ListItemText

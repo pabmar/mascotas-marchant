@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import {Link} from 'react-router-dom';
 
-import CardWidget from '../CarWidget/CardWidget'
+import CartWidget from './CartWidget/CardWidget';
  
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -50,7 +50,7 @@ const NavBar = props => {
             <Typography variant="h6" className={classes.title}>
               <Link to={'/'} className={classes.links}>Marchant Mascotas</Link>
             </Typography>
-            <Link to={'/cart'} className={classes.menus}><CardWidget/></Link>
+            <Link to={'/cart'} className={classes.menus}><CartWidget/></Link>
           </Toolbar>
         </AppBar>
       </div>
