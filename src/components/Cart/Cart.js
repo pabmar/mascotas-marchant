@@ -23,11 +23,12 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import WarningIcon from '@material-ui/icons/Warning';
 import { Link } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import StorefrontSharpIcon from '@material-ui/icons/StorefrontSharp';
 import { CartStyle } from './CartStyle';
+
+import CarroVacio from './CarroVacio/CarroVacio';
+import { dataBase } from '../../Firebase/firebase';
+import 'firebase/firestore'
  
 
 
@@ -39,7 +40,11 @@ const useStyles = makeStyles((theme) => CartStyle(theme));
 const Cart = props => {
 
     const [open, setOpen] = React.useState(false);
-
+    const [carro,setCarro] = useContext(CartContext)
+    const [carroCompras,setCarroCompras] = useState([])
+    const [totalPago,setTotalPago] = useState(0)
+    const prePedidoEspecifico = dataBase.collection('prePedido').doc(carro)
+    
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -47,31 +52,35 @@ const Cart = props => {
     const handleClose = () => {
         setOpen(false);
     };
-    const [carro,setCarro] = useContext(CartContext)
-    const [totalPago,setTotalPago] = useState(0)
+    
 
     const classes = useStyles();
  
     useEffect(() =>{
         
      calcularTotal()
+     obtenerCarro()
     },[])
     
-    const calcularTotal=() =>{ 
-        carro.forEach(d => {
-         setTotalPago(totalPago + (d.precio*d.cantidadProducto))
-         
-})};
+    const calcularTotal=() =>{ };
 const vaciarCarro=() =>{ 
-    setCarro([])
+ 
     handleClose()
      
 };
-         
+
+const obtenerCarro = () =>{
+  prePedidoEspecifico.get().then((querySnapshot) =>{
+    if(querySnapshot.size === 0){
+      console.log('No Result');
+    }
+ 
+     setCarroCompras(querySnapshot.data().items) 
+})}   
     
-    return (<Container fixed> 
+    return (<Container fixed> {console.log(carroCompras)}
          
-          <Grid container spacing={2}><>{console.log(carro.length)}</>
+          <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               
     {   
@@ -80,14 +89,14 @@ const vaciarCarro=() =>{
                 Carro de Compras
               </Typography>
             <List  >
-            {carro.map((producto, i) => <ListItem>
+            {carroCompras.map((item, i) => <ListItem>
                   <ListItemAvatar>
-                         <Avatar alt={producto.alt} src={producto.img1}/>
+                         <Avatar alt={item.producto.alt} src={item.producto.img1}/>
                          
                   </ListItemAvatar>
                   <ListItemText
-                    primary={producto.titulo}
-                    secondary={`Cantidad: ${producto.cantidadProducto} Precio: ${producto.precio} Total: ${producto.precio*producto.cantidadProducto}`}
+                    priary={item.producto.titulo}
+                    secondary={`Cantidad: ${item.cantidad} Precio: ${item.producto.precio} Total: ${item.producto.precio*item.cantidad}`}
                   />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
@@ -119,38 +128,15 @@ const vaciarCarro=() =>{
                     </Button>
                 
             </List>
-          </Card>):(
-          <Card className={classes.root}>
-      
-            <CardMedia
-              className={classes.media}
-              image="https://image.freepik.com/foto-gratis/disparo-enfoque-selectivo-gato-gris-cara-gato-enojado_181624-13282.jpg"
-              title="Mishi Enojado"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
-              Su Carro esta vacio...
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                  y a al mishi no le gusta eso
-              </Typography>
-            </CardContent>
- 
-          <CardActions>
-          <Link to={'/'} >ir ver productos</Link>    
-             
-          </CardActions>
-        </Card>
-              
-  )
+          </Card>):(<CarroVacio></CarroVacio> )
     }
              
             </Grid>
             
           <Grid item xs={12} md={6}>
-          {   carro.length?(<FormularioCompra/>):(<></>)}
+          {carro.length?(<FormularioCompra/>):(<></>)}
                 
-            </Grid>
+          </Grid> 
           </Grid>
           <div>
       
@@ -183,7 +169,7 @@ const vaciarCarro=() =>{
  
     // return <ul>
     //     {console.log(carro)}
-    // {carro.map((producto, i) => <li key={i}>{producto.cantidadProducto}{producto.categoria}{producto.precio}</li>)}
+    // {carro.map((producto, i) => <li key={i}>{item.producto.cantidadProducto}{item.producto.categoria}{item.producto.precio}</li>)}
     // </ul>
  
      

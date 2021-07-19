@@ -5,7 +5,7 @@ export const CartContext = React.createContext([])
 
 
 export const CartProvider = ({children}) =>{
-    const [carro,setCarro] = useState([])
+    const [carro,setCarro] = useState('nuevo')
     
 
     return <CartContext.Provider value ={[carro,setCarro]}>

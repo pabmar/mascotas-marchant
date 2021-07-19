@@ -1,4 +1,4 @@
-import { orange, grey } from '@material-ui/core/colors';
+import { orange, grey,green } from '@material-ui/core/colors';
 export const ItemCountStyle = theme => {
     return ({
         root: {
@@ -18,6 +18,10 @@ export const ItemCountStyle = theme => {
           orange2: {
             color: '#fff3e0',
             backgroundColor: orange[50],
+          },
+          green: {
+            color: 'green',
+            backgroundColor: green[500],
           },
           numeros: {
               color:'black',

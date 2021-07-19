@@ -19,33 +19,106 @@ const ItemDetailContainer = props => {
  
   const [carro,setCarro] = useContext(CartContext)
  
- 
+  const prePedido = dataBase.collection('prePedido')
+  const prePedidoEspecifico = dataBase.collection('prePedido').doc(carro)
+  const itemCollection = dataBase.collection("productos")
+  const [cantidad, setCount] = useState(0);
   const [producto, setProducto] = useState()
- 
+  const [estadoProducto, setEstadoProducto] = useState(false)
+  const [productoCarro, setProductoCarro] = useState({})
   const {id} = useParams();
 
   useEffect( () =>{
-    const itemCollection = dataBase.collection("productos");
     (itemCollection.where('id','==',id)).get().then((querySnapshot) =>{
       if(querySnapshot.size === 0){
         console.log('No Result');
       }
       setProducto((querySnapshot.docs.map(doc => doc.data()))[0])
     })
-  },[])
- 
- 
-
-  const actualizarCarro =() =>{
-
-    cantidad?setCarro([...carro,{...producto,cantidadProducto:cantidad}]):console.log("stock")
+    carro==='nuevo'?(console.log("carro nuevo")):(validarItem())
     
      
+  },[])
+  useEffect (() =>{
+    setProductoCarro({items:[{cantidad:cantidad,producto:producto,}]})
+  },[cantidad])
+
+
+  const actualizarCarro =() =>{
+    
+    carro==='nuevo'?(
+      nuevoPedido()
+    ):(
+      estadoProducto?(updateProducto()):(updatePedido())
+      
+      )
+      
+  }
+  
+  const nuevoPedido = () =>{
+    prePedido.add(productoCarro).then(({id}) =>{
+      setCarro(id)
+    }).catch(err =>{
+      console.log(err)
+    }).finally(()=>{
+      //aca finaly
+    })
+  }
+
+  const updatePedido = () =>{
+
+    prePedidoEspecifico.get().then((querySnapshot) =>{
+      if(querySnapshot.size === 0){
+        console.log('No Result');
+      }
+      const carroCompras = [...productoCarro.items,...querySnapshot.data().items]
+    
+      prePedidoEspecifico.update({
+        
+        items:carroCompras
+      }).then(()=>{
+        console.log("producto agregado")
+      }).catch((err) =>{
+        console.log(err)
+      })
+     
+     })
+  }
+  const updateProducto = () =>{
+
+    prePedidoEspecifico.get().then((querySnapshot) =>{
+      if(querySnapshot.size === 0){
+        console.log('No Result');
+      }
+      const carroCompras = [...productoCarro.items,...(querySnapshot.data().items.filter(i =>   i.producto.id !== id))]
+      console.log(carroCompras)
+      prePedidoEspecifico.update({
+        
+        items:carroCompras
+      }).then(()=>{
+        console.log("producto agregado")
+      }).catch((err) =>{
+        console.log(err)
+      })
+     
+     })
+  }
+
+  const validarItem = () =>{
+     
+    prePedidoEspecifico.get().then((querySnapshot) =>{
+      if(querySnapshot.size === 0){
+        console.log('No Result');
+      }
+      querySnapshot.data().items.map(item => {
+        item.producto.id === id?(setEstadoProducto(true)):(<></>)
+      })
+     })
   }
   
   
  
-    const [cantidad, setCount] = useState(0);
+    
     const aumentarCantidad = () => {
         cantidad<producto.stock?setCount(cantidad + 1):console.log(cantidad)
         
@@ -58,10 +131,10 @@ const ItemDetailContainer = props => {
    
     
     
-      return <>
+      return <>  {console.log(estadoProducto)}
           {producto?(
             <Container>
-              <ItemDetail item={producto}><ItemCount restarCantidad={restarCantidad} aumentarCantidad={aumentarCantidad} cantidad={cantidad} confirmarComprar={actualizarCarro}/></ItemDetail>
+              <ItemDetail item={producto} estadoProducto ={estadoProducto}><ItemCount restarCantidad={restarCantidad} aumentarCantidad={aumentarCantidad} cantidad={cantidad} confirmarComprar={actualizarCarro}/></ItemDetail>
             </Container>
           ):(
             <Box display="flex" justifyContent="center  ">

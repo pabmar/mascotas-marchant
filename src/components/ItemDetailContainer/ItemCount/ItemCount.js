@@ -50,9 +50,10 @@ const ItemCount = ({restarCantidad,aumentarCantidad,confirmarComprar, cantidad,}
                 <Button variant="contained" color="default" onClick={ejecutarFunciones} >Agregar</Button>
                     </>
                   ):(
-                    <ButtonGroup disableElevation variant="contained" color="primary"> 
+                    <ButtonGroup   variant="contained" color="primary"> 
                     <Button variant="contained" color="primary" ><Link to={'/cart'} className={classes.links}>Finalizar Compra</Link></Button>
-                    <Button variant="contained" color="default" onClick={validarCarro}>Cancelar</Button>
+                    <Button variant="contained" color="secondary" onClick={validarCarro}>Cancelar</Button>
+                    <Button variant="contained"  className={classes.green}><Link to={'/'} className={classes.links}>Seguir Comprando</Link></Button>
                     </ButtonGroup>
 
                   )

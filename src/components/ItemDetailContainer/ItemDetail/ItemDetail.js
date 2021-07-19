@@ -15,12 +15,14 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Carousel from 'react-material-ui-carousel'
 import { ItemDetailStyle } from './ItemDetailStyle';
+import MuiAlert from '@material-ui/lab/Alert';
 
-
-
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 const useStyles = makeStyles((theme) =>ItemDetailStyle(theme) );
 
-const ItemDetail =  ({item,children}) => {
+const ItemDetail =  ({item,estadoProducto,children}) => {
 
  
   const classes = useStyles();
@@ -33,7 +35,7 @@ const ItemDetail =  ({item,children}) => {
 
     
     return ( 
-        <Card className={classes.root}>{console.log(imagenes)}
+        <Card className={classes.root}> 
         <CardHeader
           avatar={
             <Avatar aria-label="Producto" className={classes.avatar}>
@@ -42,6 +44,7 @@ const ItemDetail =  ({item,children}) => {
           }
           title={(item.titulo+' $'+item.precio)}
         />
+        {estadoProducto?(<Alert severity="warning">Producto ya agregado, se actualizara la cantidad en tu carro de compra</Alert>):(<></>)}
         <Carousel>
             {
                 imagenes.map( (imagen, i) => <CardMedia
@@ -72,8 +75,10 @@ const ItemDetail =  ({item,children}) => {
           >
             <ExpandMoreIcon />
           </IconButton>
-          {children}
           <p>Stock Disponible: {item.stock}</p>
+          
+          {children}
+          
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
