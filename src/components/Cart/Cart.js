@@ -25,11 +25,12 @@ import { Link } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import StorefrontSharpIcon from '@material-ui/icons/StorefrontSharp';
 import { CartStyle } from './CartStyle';
-
+ 
 import CarroVacio from './CarroVacio/CarroVacio';
 import { dataBase } from '../../Firebase/firebase';
 import 'firebase/firestore'
- 
+import Box from '@material-ui/core/Box';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const useStyles = makeStyles((theme) => CartStyle(theme));
@@ -39,11 +40,12 @@ const useStyles = makeStyles((theme) => CartStyle(theme));
 
 const Cart = props => {
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const [carro,setCarro] = useContext(CartContext)
     const [carroCompras,setCarroCompras] = useState([])
+    const [barraCarga,setBarraCarga] = useState(true)
     const [totalPago,setTotalPago] = useState(0)
-    const prePedidoEspecifico = dataBase.collection('prePedido').doc(carro)
+    const prePedidoEspecifico = dataBase.collection('prePedido').doc(carro.id)
     
     const handleClickOpen = () => {
         setOpen(true);
@@ -57,14 +59,34 @@ const Cart = props => {
     const classes = useStyles();
  
     useEffect(() =>{
-        
-     calcularTotal()
-     obtenerCarro()
+      setBarraCarga(false)
+     obtenerCarro() 
+     
+     
     },[])
+    useEffect(() =>{
+      calcularTotal()
+     
+    },[carroCompras])
     
-    const calcularTotal=() =>{ };
+    
+const calcularTotal=() =>{ 
+  
+  const totales = carroCompras.map((item) => { 
+    return (item.producto.precio*item.cantidad)
+   })
+   const sumaPrecios = totales.reduce((prev, next) => prev + next, 0);  
+   setTotalPago(sumaPrecios)
+};
 const vaciarCarro=() =>{ 
- 
+    prePedidoEspecifico.delete().then(
+      setCarro({id:'nuevo',productos:0})
+      
+    ).finally(()=>{
+      setCarroCompras([])
+      obtenerCarro()
+
+    })
     handleClose()
      
 };
@@ -74,39 +96,67 @@ const obtenerCarro = () =>{
     if(querySnapshot.size === 0){
       console.log('No Result');
     }
- 
-     setCarroCompras(querySnapshot.data().items) 
-})}   
     
-    return (<Container fixed> {console.log(carroCompras)}
+     setCarroCompras(querySnapshot.data().items) 
+}).catch((error)=>{
+  console.log(error);
+}).finally(()=>{
+  setBarraCarga(true)
+
+})}
+
+const eliminarProducto = (ideliminar) =>{
+  prePedidoEspecifico.get().then((querySnapshot) =>{
+    if(querySnapshot.size === 0){
+      console.log('No Result');
+    }
+    const carritoCompras = [...(querySnapshot.data().items.filter(i =>   i.producto.id !== ideliminar))]
+    
+    prePedidoEspecifico.update({
+      
+      items:carritoCompras
+    }).then(()=>{
+      
+      
+      obtenerCarro()
+      carritoCompras.length?(setCarro({id:carro.id,productos:carro.productos-1})):(setCarro({id:'nuevo',productos:0}))
+    }).catch((err) =>{
+      console.log(err)
+    })
+   
+   })
+}
+
+    return (<Container fixed>  
          
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               
-    {   
-        carro.length?(<Card className={classes.root}>
+              
+    {   barraCarga?(
+        carroCompras.length?(<Card className={classes.root}>
           <Typography variant="h6" className={classes.title}>
                 Carro de Compras
               </Typography>
             <List  >
-            {carroCompras.map((item, i) => <ListItem>
+            {carroCompras.map((item, i) => <ListItem>  
                   <ListItemAvatar>
                          <Avatar alt={item.producto.alt} src={item.producto.img1}/>
                          
                   </ListItemAvatar>
                   <ListItemText
-                    priary={item.producto.titulo}
-                    secondary={`Cantidad: ${item.cantidad} Precio: ${item.producto.precio} Total: ${item.producto.precio*item.cantidad}`}
+                    primary={item.producto.titulo}
+                    secondary={`Cantidad: ${item.cantidad} Precio: $${item.producto.precio}.- Total: $${item.producto.precio*item.cantidad}.-` }
                   />
                   <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete">
+                    <IconButton edge="end" aria-label="delete" onClick={() => { eliminarProducto(item.producto.id) }}>
                       <DeleteIcon />
                     </IconButton>
                   </ListItemSecondaryAction>
                 </ListItem>)}
                 <ListItemText
-                    primary='TOTAL:'
-                    secondary={totalPago}
+                    primary={`TOTAL: $${totalPago}.-`}
+                    
                   />
                 <Button
                       variant="contained"
@@ -128,49 +178,74 @@ const obtenerCarro = () =>{
                     </Button>
                 
             </List>
-          </Card>):(<CarroVacio></CarroVacio> )
+          </Card>):(<CarroVacio></CarroVacio> )):(
+            <Box display="flex" justifyContent="center  ">
+            <CircularProgress />
+         </Box>
+          )
     }
              
             </Grid>
             
           <Grid item xs={12} md={6}>
-          {carro.length?(<FormularioCompra/>):(<></>)}
+          {carroCompras.length?(<FormularioCompra carroCompras={carroCompras} totalPago={totalPago}/>):(<></>)}
                 
           </Grid> 
           </Grid>
           <div>
       
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title"><WarningIcon/>Eliminacion de carro de compra</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            ¿desea vaciar el carro de compras?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={vaciarCarro} color="primary">
-            Aceptar
-          </Button>
-          <Button onClick={handleClose} color="primary" autoFocus>
-            Cancelar
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="alert-vaciarCarro"
+              aria-describedby="alert-vaciarCarro"
+            >
+              <DialogTitle id="alert-vaciarCarro"><WarningIcon/>Eliminacion de carro de compra</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-vaciarCarro">
+                  ¿desea vaciar el carro de compras?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={vaciarCarro} color="primary">
+                  Aceptar
+                </Button>
+                <Button onClick={handleClose} color="primary" autoFocus>
+                  Cancelar
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </div>
+          <div>
+      
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title"><WarningIcon/>Eliminacion de carro de compra</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  ¿desea vaciar el carro de compras?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={vaciarCarro} color="primary">
+                  Aceptar
+                </Button>
+                <Button onClick={handleClose} color="primary" autoFocus>
+                  Cancelar
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </div>
           </Container>
  
        );
     
  
-    // return <ul>
-    //     {console.log(carro)}
-    // {carro.map((producto, i) => <li key={i}>{item.producto.cantidadProducto}{item.producto.categoria}{item.producto.precio}</li>)}
-    // </ul>
+    
  
      
 }

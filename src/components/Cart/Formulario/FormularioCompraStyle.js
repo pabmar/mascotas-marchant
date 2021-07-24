@@ -24,6 +24,7 @@ export const FormularioCompraStyle = theme => {
           margin: {
             margin: theme.spacing(1),
           },
+        
     }
     )
 }

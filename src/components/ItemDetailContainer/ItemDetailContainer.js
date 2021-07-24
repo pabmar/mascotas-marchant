@@ -20,7 +20,7 @@ const ItemDetailContainer = props => {
   const [carro,setCarro] = useContext(CartContext)
  
   const prePedido = dataBase.collection('prePedido')
-  const prePedidoEspecifico = dataBase.collection('prePedido').doc(carro)
+  const prePedidoEspecifico = dataBase.collection('prePedido').doc(carro.id)
   const itemCollection = dataBase.collection("productos")
   const [cantidad, setCount] = useState(0);
   const [producto, setProducto] = useState()
@@ -35,7 +35,7 @@ const ItemDetailContainer = props => {
       }
       setProducto((querySnapshot.docs.map(doc => doc.data()))[0])
     })
-    carro==='nuevo'?(console.log("carro nuevo")):(validarItem())
+    carro.id==='nuevo'?(console.log("carro nuevo")):(validarItem())
     
      
   },[])
@@ -46,7 +46,7 @@ const ItemDetailContainer = props => {
 
   const actualizarCarro =() =>{
     
-    carro==='nuevo'?(
+    carro.id==='nuevo'?(
       nuevoPedido()
     ):(
       estadoProducto?(updateProducto()):(updatePedido())
@@ -57,7 +57,7 @@ const ItemDetailContainer = props => {
   
   const nuevoPedido = () =>{
     prePedido.add(productoCarro).then(({id}) =>{
-      setCarro(id)
+      setCarro({id:id,productos:1})
     }).catch(err =>{
       console.log(err)
     }).finally(()=>{
@@ -78,6 +78,7 @@ const ItemDetailContainer = props => {
         items:carroCompras
       }).then(()=>{
         console.log("producto agregado")
+        setCarro({id:carro.id,productos:carro.productos+1})
       }).catch((err) =>{
         console.log(err)
       })
@@ -131,10 +132,10 @@ const ItemDetailContainer = props => {
    
     
     
-      return <>  {console.log(estadoProducto)}
+      return <>  
           {producto?(
             <Container>
-              <ItemDetail item={producto} estadoProducto ={estadoProducto}><ItemCount restarCantidad={restarCantidad} aumentarCantidad={aumentarCantidad} cantidad={cantidad} confirmarComprar={actualizarCarro}/></ItemDetail>
+              <ItemDetail item={producto} estadoProducto ={estadoProducto}><ItemCount restarCantidad={restarCantidad} aumentarCantidad={aumentarCantidad} cantidad={cantidad} confirmarComprar={actualizarCarro} stock={producto.stock}/></ItemDetail>
             </Container>
           ):(
             <Box display="flex" justifyContent="center  ">

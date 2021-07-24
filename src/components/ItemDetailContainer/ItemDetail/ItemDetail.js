@@ -42,7 +42,7 @@ const ItemDetail =  ({item,estadoProducto,children}) => {
               P
             </Avatar>
           }
-          title={(item.titulo+' $'+item.precio)}
+          title={`${item.titulo} $${item.precio}`}
         />
         {estadoProducto?(<Alert severity="warning">Producto ya agregado, se actualizara la cantidad en tu carro de compra</Alert>):(<></>)}
         <Carousel>

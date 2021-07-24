@@ -16,12 +16,12 @@ const useStyles = makeStyles((theme) => ({
 
 const CartWidget = props => {
 
-  const carro = useContext(CartContext)
-  const cantidad = carro.length
+  const [carro,setCarro] = useContext(CartContext)
+ 
     const classes = useStyles();
     return (
         <div className={classes.root}>
-        <Badge badgeContent={cantidad} color="primary">
+        <Badge badgeContent={carro.productos} color="primary">
           <AddShoppingCartIcon />
         </Badge>
         </div>

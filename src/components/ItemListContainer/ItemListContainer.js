@@ -55,7 +55,7 @@ const ItemListContainer = props => {
       )
        
     },[filtroCategoria]);
-    return <>{console.log(filtroCategoria)}
+    return <> 
           {productos.length?(
             <Container>
               <FormControl className={classes.formControl}>

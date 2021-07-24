@@ -36,7 +36,9 @@ const Item =  props => {
               <Typography variant="body3" color="textSecondary" component="p">
                  ${item.precio}.-
               </Typography>
-              
+              <Typography variant="body3" color="textSecondary" component="p">
+                 Stock:{item.stock}
+              </Typography>
             </CardContent>
           </CardActionArea>
           <CardActions>
