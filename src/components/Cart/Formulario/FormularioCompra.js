@@ -12,11 +12,14 @@ import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-
+import { useHistory } from "react-router-dom";
 import { FormularioCompraStyle } from "./FormularioCompraStyle";
 import validator from "validator";
 import { dataBase } from "../../../Firebase/firebase";
 import "firebase/firestore";
+import { useContext } from 'react';
+import { CartContext} from '../../Context/CartContext'
+
 
 const useStyles = makeStyles((theme) => FormularioCompraStyle(theme));
 
@@ -25,7 +28,9 @@ function Alert(props) {
 }
 
 const FormularioCompra = ({ carroCompras, totalPago }) => {
-  const carro = carroCompras;
+  const [carro,setCarro] = useContext(CartContext)
+  const history = useHistory();
+ 
   const total = totalPago;
   const classes = useStyles();
   const [nombre, setNombre] = useState([]);
@@ -53,7 +58,7 @@ const FormularioCompra = ({ carroCompras, totalPago }) => {
   const finalizarCompra = () => {
     const cliente = { nombre: nombre, email: email, telefono: telefono };
     emailError && fonoError && nombreError
-      ? crearNuevoPedido(cliente, carro, total)
+      ? crearNuevoPedido(cliente, carroCompras, total)
       : handleClick();
   };
 
@@ -94,13 +99,33 @@ const FormularioCompra = ({ carroCompras, totalPago }) => {
     nuevoPedido
       .add(pedidoGenerado)
       .then(({ id }) => {
-        console.log(id);
+        reducirStocks(id);
+        
       })
       .catch((err) => {})
       .finally(() => {
         //aca finaly
       });
+  };
+  const reducirStocks = (id) => {
 
+    const redireccion = `/buscarPedido/${id}`
+    const updateBach = async () =>{
+      return Promise.all(carroCompras.map((producto) => { 
+        batch.update((dataBase.collection("productos").doc(producto.producto.idfb)),{"stock": (producto.producto.stock - producto.cantidad)})
+        
+      }) )
+    }
+    updateBach().then(data =>{
+      batch.commit().then(dato =>{
+        setCarro({id:'nuevo',productos:0})
+        history.push(redireccion)
+ 
+      })
+      
+    })
+   
+    
     // batch.set(nuevoPedido,{
     //   cliente,
     //   productos,
@@ -124,7 +149,7 @@ const FormularioCompra = ({ carroCompras, totalPago }) => {
             </Grid>
             <Grid item>
               <TextField
-                id="input"
+                id="input_nombre"
                 label="Nombre Completo"
                 onKeyUp={(e) => validarNombre(e.target.value)}
                 error={!nombreError}
@@ -138,7 +163,7 @@ const FormularioCompra = ({ carroCompras, totalPago }) => {
             </Grid>
             <Grid item>
               <TextField
-                id="input"
+                id="input_telefono"
                 label="Telefono"
                 onKeyUp={(e) => validarTelefono(e.target.value)}
                 error={!fonoError}
@@ -152,7 +177,7 @@ const FormularioCompra = ({ carroCompras, totalPago }) => {
             </Grid>
             <Grid item className={classes.grid}>
               <TextField
-                id="input"
+                id="input_email"
                 label="Email"
                 onKeyUp={(e) => validarEmail(e.target.value)}
                 error={!emailError}

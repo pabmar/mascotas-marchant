@@ -20,17 +20,15 @@ const NavBar = (props) => {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar className={classes.tb}>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
+       
           <Typography variant="h6" className={classes.title}>
             <Link to={"/"} className={classes.links}>
               Marchant Mascotas
+            </Link>
+          </Typography>
+          <Typography variant="h6" className={classes.title}>
+            <Link to={"/buscarPedido/"} className={classes.links}>
+              Ver Pedidos
             </Link>
           </Typography>
           <Link to={"/cart"} className={classes.menus}>
